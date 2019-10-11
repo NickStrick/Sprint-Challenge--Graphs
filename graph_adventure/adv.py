@@ -21,21 +21,21 @@ world.printRooms()
 player = Player("Name", world.startingRoom)
 
 
-# class Stack():
-#     def __init__(self):
-#         self.stack = []
+class Stack():
+    def __init__(self):
+        self.stack = []
 
-#     def push(self, value):
-#         self.stack.append(value)
+    def push(self, value):
+        self.stack.append(value)
 
-#     def pop(self):
-#         if self.size() > 0:
-#             return self.stack.pop()
-#         else:
-#             return None
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
 
-#     def size(self):
-#         return len(self.stack)
+    def size(self):
+        return len(self.stack)
 
 
 # FILL THIS IN
@@ -97,7 +97,50 @@ def mazeTraversal():
             reverse_dir = reverse_dirs[nextDirection]
             visited[nextRoomId][reverse_dir] = roomId
         else:
-            break
+            # run a search to return to the nearest room with an unexplored direction
+
+            stack = Stack()
+            visited_search = set()
+            stack.push([roomId])
+            found = 0
+            reverseTraversal = []
+            while stack.size() > 0 and found == 0:
+                path = stack.pop()
+                node = path[-1]
+                print(path, node)
+                searchRoom = visited[node]
+                if node not in visited_search:
+                    visited_search.add(node)
+
+                for direction in searchRoom:
+                    if searchRoom[direction] == '?':
+                        print('this one!!!')
+                        found += 1
+                        print(found)
+
+                if found > 0:
+                    break
+
+                exploredDirections = []
+                for direction in visited[roomId]:
+                    # print(direction)
+                    if visited[roomId][direction] != '?':
+                        exploredDirections.append(direction)
+
+                for direction in exploredDirections:
+                    reverseTraversal.append(direction)
+                    print(searchRoom[direction])
+                    new_path = list(path)
+                    new_path.append(searchRoom[direction])
+                    stack.push(new_path)
+            print('re', reverseTraversal)
+
+            for way in reverseTraversal:
+                print(way)
+                player.travel(way)
+                traversalPath.append(way)
+
+        # break
 
     return traversalPath
 
