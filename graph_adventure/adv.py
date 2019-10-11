@@ -105,7 +105,6 @@ def mazeTraversal():
                 reverseTraversal = []
                 path = stack.pop()
                 node = path[-1]
-                print(path, node)
                 searchRoom = visited[node]
                 if node not in visited_search:
                     visited_search.add(node)
@@ -128,24 +127,17 @@ def mazeTraversal():
 
                 for direction in exploredDirections:
                     reverseTraversal.append(direction)
-                    print('room', direction, searchRoom)
                     new_path = list(path)
                     new_path.append(searchRoom[direction])
                     stack.push(new_path)
-            print('foundpath', foundPath)
             previous = foundPath[0]
             for room in foundPath:
                 if room != foundPath[0]:
                     for way in visited[previous]:
-                        print(way)
                         if visited[previous][way] == room:
                             player.travel(way)
                             traversalPath.append(way)
                 previous = room
-
-                # player.travel(way)
-                # traversalPath.append(way)
-            print(player.currentRoom.id)
 
         # break
 
@@ -153,7 +145,6 @@ def mazeTraversal():
 
 
 traversalPath = mazeTraversal()
-print(traversalPath)
 
 # TRAVERSAL TEST
 visited_rooms = set()
