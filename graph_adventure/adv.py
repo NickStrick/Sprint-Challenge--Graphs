@@ -21,23 +21,104 @@ world.printRooms()
 player = Player("Name", world.startingRoom)
 
 
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
+
+
+# class TraveledRoom():
+#     def __init__(self, id, n=None, w=None, e=None, s=None):
+#         self.id = id
+#         self.n = n
+#         self.s = s
+#         self.e = e
+#         self.w = w
+
+#     def obj(self):
+#         obj = {}
+#         if self.n:
+#             obj['n'] = self.n
+#         if self.s:
+#             obj['s'] = self.s
+#         if self.e:
+#             obj['e'] = self.e
+#         if self.w:
+#             obj['w'] = self.w
+#         return obj
+
+#     def dir(self, dir, value):
+#         if dir == 'n':
+#             self.n = value
+#         if dir == 's':
+#             self.s = value
+#         if dir == 'e':
+#             self.e = value
+#         if dir == 'w':
+#             self.w = value
+
+#         return self.obj()
+
+
+# t = TraveledRoom(0, 1)
+# print(t)
+# print(t.obj())
+
+
+class Graph():
+    def __init__(self):
+        # for room
+        self.traversal = {}
+
+    def addRoom(self, room):
+        obj = {}
+        if room.n_to:
+            obj['n'] = room.n_to
+        if room.s_to:
+            obj['s'] = room.s_to
+        if room.e_to:
+            obj['e'] = room.e_to
+        if room.w_to:
+            obj['w'] = room.w_to
+        self.traversal[room.id] = obj
+
+
 # FILL THIS IN
+traversalPath = ['n', 's']
+print('grid', len(world.rooms))
+
+
 def mazeTraversal():
+    '''
+    while the length of visited does not match the grpah length
+        get current room
+        if room not in visited add it to visited
+        grab unvisited rooms
+        if not visited explore a not visited room
+        else find a way back to the nearest not visited
+    '''
+    traversalPath = []
     visited = {}
-    # traversal = World()
-    # print(world.roomGrid)
-    for i in world.rooms:
-        room = world.rooms[i]
-        print(room.x, room.y)
+    # loop until all rooms have been explored (all rooms added to visited)
 
 
 mazeTraversal()
-traversalPath = ['n', 'n']
 
 
 # TRAVERSAL TEST
 visited_rooms = set()
-player.currentRoom = world.startingRoom
+# player.currentRoom = world.startingRoom
 visited_rooms.add(player.currentRoom)
 for move in traversalPath:
     player.travel(move)
