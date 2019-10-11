@@ -100,8 +100,9 @@ def mazeTraversal():
             visited_search = set()
             stack.push([roomId])
             found = 0
-            reverseTraversal = []
+            foundPath = []
             while stack.size() > 0 and found == 0:
+                reverseTraversal = []
                 path = stack.pop()
                 node = path[-1]
                 print(path, node)
@@ -111,6 +112,7 @@ def mazeTraversal():
 
                 for direction in searchRoom:
                     if searchRoom[direction] == '?':
+                        foundPath = path
                         found += 1
 
                 if found > 0:
@@ -120,14 +122,8 @@ def mazeTraversal():
                 for direction in searchRoom:
 
                     if searchRoom[direction] != '?':
-                        print(visited_search)
-                        print(direction)
-                        print('p', path)
-                        print(searchRoom[direction])
                         value = searchRoom[direction]
-
-                        if value not in visited_search:
-                            print('added to directions')
+                        if value not in path:
                             exploredDirections.append(direction)
 
                 for direction in exploredDirections:
@@ -136,10 +132,20 @@ def mazeTraversal():
                     new_path = list(path)
                     new_path.append(searchRoom[direction])
                     stack.push(new_path)
+            print('foundpath', foundPath)
+            previous = foundPath[0]
+            for room in foundPath:
+                if room != foundPath[0]:
+                    for way in visited[previous]:
+                        print(way)
+                        if visited[previous][way] == room:
+                            player.travel(way)
+                            traversalPath.append(way)
+                previous = room
 
-            for way in reverseTraversal:
-                player.travel(way)
-                traversalPath.append(way)
+                # player.travel(way)
+                # traversalPath.append(way)
+            print(player.currentRoom.id)
 
         # break
 
